@@ -80,10 +80,10 @@ func (h *MyHandler) HandleFastHTTP(ctx *fasthttp.RequestCtx) {
 	if string(ctx.Method()) == "GET" {
 		switch string(ctx.Path()) {
 		case "/":
-
+			fmt.Println("BUENA")
 			ctx.SetBody(h.Send([]byte{}))
 
-		case "/favico.ico":
+		case "/favicon.ico":
 			ctx.SetBody(h.Send([]byte{65, 66}))
 		default:
 			ctx.Error("Not Found", fasthttp.StatusNotFound)
