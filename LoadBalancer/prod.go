@@ -97,7 +97,7 @@ func (h *MyHandler) Send(data []byte) []byte {
 
 	num := h.Count % len(h.Servers)
 
-	fmt.Println(num)
+	fmt.Println(num, h.Count, len(h.Servers))
 	fmt.Println(h.Servers[num])
 
 	uri := fmt.Sprintf("http://%v:%v", h.Servers[num].addr, h.Servers[num].port)
