@@ -77,6 +77,8 @@ func main() {
 
 func (h *MyHandler) HandleFastHTTP(ctx *fasthttp.RequestCtx) {
 
+	fmt.Println("BUE")
+
 	if string(ctx.Method()) == "GET" {
 		switch string(ctx.Path()) {
 		case "/":
