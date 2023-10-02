@@ -19,7 +19,8 @@ type Config struct {
 	Tiempo time.Duration `json:"Tiempo"`
 }
 type MyHandler struct {
-	Conf Config `json:"Conf"`
+	Conf  Config `json:"Conf"`
+	Count int    `json:"Count"`
 }
 
 func main() {
@@ -73,7 +74,11 @@ func (h *MyHandler) HandleFastHTTP(ctx *fasthttp.RequestCtx) {
 	if string(ctx.Method()) == "GET" {
 		switch string(ctx.Path()) {
 		case "/":
+			h.Count++
 			ctx.SetBody([]byte{65})
+		case "/Count":
+			fmt.Println(h.Count)
+			ctx.SetBody([]byte{})
 		default:
 			ctx.Error("Not Found", fasthttp.StatusNotFound)
 		}

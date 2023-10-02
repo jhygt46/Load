@@ -39,7 +39,7 @@ func main() {
 		port = ":80"
 	}
 
-	pass := &MyHandler{Servers: []Server{Server{addr: "localhost", port: 8081}, Server{addr: "localhost", port: 8082}}}
+	pass := &MyHandler{Count: 0, Servers: []Server{Server{addr: "localhost", port: 8081}, Server{addr: "localhost", port: 8082}}}
 
 	con := context.Background()
 	con, cancel := context.WithCancel(con)
@@ -80,6 +80,10 @@ func (h *MyHandler) HandleFastHTTP(ctx *fasthttp.RequestCtx) {
 	if string(ctx.Method()) == "GET" {
 		switch string(ctx.Path()) {
 		case "/":
+			h.Count++
+			ctx.SetBody(h.Send([]byte{}))
+		case "/Count":
+			fmt.Println(h.Count)
 			ctx.SetBody(h.Send([]byte{}))
 		case "/favicon.ico":
 			ctx.SetBody(h.Send([]byte{65, 66}))
