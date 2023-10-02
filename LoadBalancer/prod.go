@@ -82,7 +82,6 @@ func (h *MyHandler) HandleFastHTTP(ctx *fasthttp.RequestCtx) {
 	if string(ctx.Method()) == "GET" {
 		switch string(ctx.Path()) {
 		case "/":
-			h.Count++
 			ctx.SetBody(h.Send([]byte{}))
 		case "/count":
 			fmt.Println(h.Count)
