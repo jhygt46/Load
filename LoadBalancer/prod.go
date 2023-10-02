@@ -82,7 +82,6 @@ func (h *MyHandler) HandleFastHTTP(ctx *fasthttp.RequestCtx) {
 		case "/":
 			fmt.Println("BUENA")
 			ctx.SetBody(h.Send([]byte{}))
-
 		case "/favicon.ico":
 			ctx.SetBody(h.Send([]byte{65, 66}))
 		default:

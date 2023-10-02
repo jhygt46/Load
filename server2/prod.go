@@ -28,7 +28,7 @@ func main() {
 	if runtime.GOOS == "windows" {
 		port = ":8082"
 	} else {
-		port = ":8080"
+		port = ":8082"
 	}
 
 	pass := &MyHandler{}
