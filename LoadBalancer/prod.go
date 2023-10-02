@@ -39,7 +39,7 @@ func main() {
 		port = ":80"
 	}
 
-	pass := &MyHandler{Count: 0, Servers: []Server{Server{addr: "10.128.0.10", port: 8081}, Server{addr: "10.128.0.11", port: 8082}}}
+	pass := &MyHandler{Count: 0, Servers: []Server{Server{addr: "10.128.0.10", port: 80}, Server{addr: "10.128.0.11", port: 80}}}
 
 	con := context.Background()
 	con, cancel := context.WithCancel(con)
