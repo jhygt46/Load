@@ -36,7 +36,7 @@ func main() {
 	if runtime.GOOS == "windows" {
 		port = ":81"
 	} else {
-		port = ":8080"
+		port = ":80"
 	}
 
 	pass := &MyHandler{Servers: []Server{Server{addr: "localhost", port: 8081}, Server{addr: "localhost", port: 8082}}}
