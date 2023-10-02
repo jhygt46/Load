@@ -76,7 +76,6 @@ func (h *MyHandler) HandleFastHTTP(ctx *fasthttp.RequestCtx) {
 		case "/":
 			h.Count++
 			ctx.SetBody([]byte{65})
-			fmt.Println("SERVER 1: ", h.Count)
 		case "/count":
 			fmt.Println(h.Count)
 			ctx.SetBody([]byte{})
