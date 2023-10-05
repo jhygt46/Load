@@ -87,7 +87,7 @@ func (h *MyHandler) HandleFastHTTP(ctx *fasthttp.RequestCtx) {
 
 // DAEMON //
 func (h *MyHandler) StartDaemon() {
-	h.Conf.Tiempo = 30 * time.Second
+	h.Conf.Tiempo = 1 * time.Second
 	fmt.Println("Count: ", h.Count)
 }
 func (c *Config) init() {
