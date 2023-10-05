@@ -41,6 +41,8 @@ func main() {
 	}
 
 	pass := &MyHandler{Request: fasthttp.AcquireRequest(), Count: 0, Servers: []Server{Server{addr: "10.128.0.10", port: 80}, Server{addr: "10.128.0.11", port: 80}}}
+	pass.Request.Header.SetMethod("GET")
+	pass.Request.Header.SetContentType("application/json")
 
 	con := context.Background()
 	con, cancel := context.WithCancel(con)
@@ -90,7 +92,7 @@ func (h *MyHandler) HandleFastHTTP(ctx *fasthttp.RequestCtx) {
 		switch string(ctx.Path()) {
 		case "/":
 			// INDEX HTML
-			ctx.SetBody(h.Send("", []byte{}))
+			ctx.SetBody(h.Send2("", []byte{}))
 		case "/count":
 			fmt.Println(h.Count)
 			ctx.SetBody(h.Send("", []byte{}))
@@ -105,6 +107,7 @@ func (h *MyHandler) HandleFastHTTP(ctx *fasthttp.RequestCtx) {
 func (h *MyHandler) Send(ip string, data []byte) []byte {
 
 	num := h.Count % len(h.Servers)
+	h.Count++
 	uri := fmt.Sprintf("http://%v:%v", h.Servers[num].addr, h.Servers[num].port)
 	req := fasthttp.AcquireRequest()
 	req.SetBody(data)
@@ -118,24 +121,27 @@ func (h *MyHandler) Send(ip string, data []byte) []byte {
 	fasthttp.ReleaseRequest(req)
 	body := res.Body()
 	fasthttp.ReleaseResponse(res)
-	h.Count++
+
 	return body
 }
 
-/*
-func (h *MyHandler) Send(ctx *fasthttp.RequestCtx) []byte {
+func (h *MyHandler) Send2(ip string, data []byte) []byte {
 
-
-
-	resp, err := fasthttp.Get(conn.Context(), fmt.Sprintf("%s:%d/%s", h.Servers[0].addr, h.Servers[0].port, ctx.Request.URI().Path))
+	num := h.Count % len(h.Servers)
+	h.Count++
+	uri := fmt.Sprintf("http://%v:%v", h.Servers[num].addr, h.Servers[num].port)
+	var body []byte
+	statusCode, body, err := fasthttp.Get(body, uri)
 	if err != nil {
-		fmt.Println(err)
+		fmt.Printf("Client get failed: %s\n", err)
 		return nil
 	}
-
-	return resp.Body()
+	if statusCode != fasthttp.StatusOK {
+		fmt.Printf("Expected status code %d but got %d\n", fasthttp.StatusOK, statusCode)
+		return nil
+	}
+	return body
 }
-*/
 
 // DAEMON //
 func (h *MyHandler) StartDaemon() {
