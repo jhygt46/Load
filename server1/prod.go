@@ -87,7 +87,8 @@ func (h *MyHandler) HandleFastHTTP(ctx *fasthttp.RequestCtx) {
 
 // DAEMON //
 func (h *MyHandler) StartDaemon() {
-	h.Conf.Tiempo = 10 * time.Second
+	h.Conf.Tiempo = 30 * time.Second
+	fmt.Println("Count: ", h.Count)
 }
 func (c *Config) init() {
 	var tick = flag.Duration("tick", 1*time.Second, "Ticking interval")
