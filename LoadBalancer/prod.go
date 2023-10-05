@@ -92,7 +92,7 @@ func (h *MyHandler) HandleFastHTTP(ctx *fasthttp.RequestCtx) {
 		switch string(ctx.Path()) {
 		case "/":
 			// INDEX HTML
-			ctx.SetBody(h.Send3("", []byte{}))
+			ctx.SetBody(h.Send("", []byte{}))
 		case "/count":
 			fmt.Println(h.Count)
 			ctx.SetBody(h.Send("", []byte{}))
