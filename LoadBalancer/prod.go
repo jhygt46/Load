@@ -92,7 +92,7 @@ func (h *MyHandler) HandleFastHTTP(ctx *fasthttp.RequestCtx) {
 		switch string(ctx.Path()) {
 		case "/":
 			// INDEX HTML
-			ctx.SetBody(h.Send2("", []byte{}))
+			ctx.SetBody(h.Send3("", []byte{}))
 		case "/count":
 			fmt.Println(h.Count)
 			ctx.SetBody(h.Send("", []byte{}))
@@ -119,6 +119,22 @@ func (h *MyHandler) Send(ip string, data []byte) []byte {
 
 	}
 	fasthttp.ReleaseRequest(req)
+	body := res.Body()
+	fasthttp.ReleaseResponse(res)
+
+	return body
+}
+func (h *MyHandler) Send3(ip string, data []byte) []byte {
+
+	num := h.Count % len(h.Servers)
+	h.Count++
+	uri := fmt.Sprintf("http://%v:%v", h.Servers[num].addr, h.Servers[num].port)
+	h.Request.SetRequestURI(uri)
+	res := fasthttp.AcquireResponse()
+	if err := fasthttp.Do(h.Request, res); err != nil {
+
+	}
+	fasthttp.ReleaseRequest(h.Request)
 	body := res.Body()
 	fasthttp.ReleaseResponse(res)
 
